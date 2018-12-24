@@ -100,7 +100,7 @@ def main():
         time.sleep(0.05)
 
     #total = len(article_list)
-    print(article_list)
+    print("beauty article : " + article_list)
     #count = 0
     # 進入每篇文章分析內容
     # while article_list:

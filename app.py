@@ -8,6 +8,8 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
+import beauty_spider
+
 app = Flask(__name__)
 
 # Channel Access Token

@@ -43,8 +43,8 @@ def handle_message(event):
     img_url = beauty_spider.main(event.message.text)
     print("App img_url : " + img_url)
     message = ImageSendMessage(
-        original_content_url='https://i.imgur.com/xZFUVex.jpg',
-        preview_image_url='https://i.imgur.com/xZFUVex.jpg'
+        original_content_url=img_url,
+        preview_image_url=img_url
     )
     line_bot_api.reply_message(event.reply_token, message)
 

@@ -87,9 +87,9 @@ def main(startpage):
     # print("Analytical download page...")
     index_list = []
     article_list = []
-    for page in range(start_page, start_page - page_term, -1):
-        page_url = 'https://www.ptt.cc/bbs/{}/index{}.html'.format(board, page)
-        index_list.append(page_url)
+    # for page in range(start_page, start_page - page_term, -1):
+    page_url = 'https://www.ptt.cc/bbs/{}/index{}.html'.format(board, start_page)
+    index_list.append(page_url)
 
     # 抓取 文章標題 網址 推文數
     print(">>>>>>>>>>>>index_list<<<<<<<<<<<<<")
@@ -107,6 +107,10 @@ def main(startpage):
         time.sleep(0.05)
 
     total = len(article_list)
+    print("Total : " + str(total))
+    print(">>>>>>>>>>>>article_list<<<<<<<<<<<<<")
+    print(*article_list, sep="\n")
+    print(">>>>>>>>>>>>article__list<<<<<<<<<<<<<")
     count = 0
     # 進入每篇文章分析內容
     while article_list:

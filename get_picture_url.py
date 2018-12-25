@@ -76,7 +76,7 @@ def store_pic(crawler_time, url, rate='', title=''):
         title = "no title"
 
     dir_name = '{}_{}'.format(remove(title, '\/:*?"<>|.'), rate)
-    # print(dir_name)
+    print(dir_name)
     pic_url_list = []
 
     # 抓取圖片URL(img tag )
@@ -123,24 +123,24 @@ def main():
                 total += 1
 
     count = 0
-    while beauty_article_urls:
-        url = beauty_article_urls.pop(0)
-        # 檢查看板是否為18禁,有些看板為18禁
-        _, status_code = over18(url)
-        # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
-        if status_code != 200:
-            beauty_article_urls.append(url)
-            # print('error_URL:',URL)
-            time.sleep(1)
-        else:
-            # print('OK_URL:', URL)
-            # 下載該網頁的圖片
-            count += 1
-            final_url = store_pic(crawler_time, url)
-            print("final_url")
-            print(final_url)
-            print('Crawling: {:.2%}'.format(count / total))
-        time.sleep(0.05)
+    # while beauty_article_urls:
+    url = beauty_article_urls.pop(0)
+    # 檢查看板是否為18禁,有些看板為18禁
+    _, status_code = over18(url)
+    # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
+    if status_code != 200:
+        beauty_article_urls.append(url)
+        # print('error_URL:',URL)
+        time.sleep(1)
+    else:
+        # print('OK_URL:', URL)
+        # 下載該網頁的圖片
+        count += 1
+        final_url = store_pic(crawler_time, url)
+        print("final_url")
+        print(final_url)
+        print('Crawling: {:.2%}'.format(count / total))
+    time.sleep(0.05)
 
     print('分析完畢...')
     print('execution time: {:.3}s'.format(time.time() - start_time))

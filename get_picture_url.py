@@ -76,7 +76,7 @@ def store_pic(crawler_time, url, rate='', title=''):
         title = "no title"
 
     dir_name = '{}_{}'.format(remove(title, '\/:*?"<>|.'), rate)
-    print(dir_name)
+    # print(dir_name)
     pic_url_list = []
 
     # 抓取圖片URL(img tag )
@@ -87,7 +87,7 @@ def store_pic(crawler_time, url, rate='', title=''):
 
     # 開始建立資料夾,使用文章標題做為資料夾的名稱
     # page_number = random.randint(0, 15)
-    # print(pic_url_list[page_number])
+    print(pic_url_list[2])
     print(*pic_url_list, sep="\n")
     # if pic_url_list:
     #     relative_path = os.path.join(crawler_time, dir_name)

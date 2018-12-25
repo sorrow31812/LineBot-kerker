@@ -66,11 +66,11 @@ def craw_page(res, push_rate):
     return article_seq
 
 
-def main(start_page):
+def main(startpage):
     # python beauty_spider2.py [版名] [爬蟲起始的頁面] [爬幾頁] [推文多少以上] python beauty_spider2.py beauty -1 3 10
     # board, start_page, page_term, push_rate = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4])
     page_number = random.randint(0, 30)
-    board, start_page, page_term, push_rate = 'beauty', start_page, 1, 10
+    board, start_page, page_term, push_rate = 'beauty', startpage, 1, 10
     start_time = time.time()
     datetime_format = '%Y%m%d%H%M%S'
     crawler_time = '_PttImg_{:{}}'.format(datetime.datetime.now(), datetime_format)
@@ -84,7 +84,7 @@ def main(start_page):
         all_page_url = soup.select('.btn.wide')[1]['href']
         start_page = get_page_number(all_page_url)
 
-    print("Analytical download page...")
+    # print("Analytical download page...")
     index_list = []
     article_list = []
     for page in range(start_page, start_page - page_term, -1):
@@ -92,6 +92,7 @@ def main(start_page):
         index_list.append(page_url)
 
     # 抓取 文章標題 網址 推文數
+    print(index_list)
     while index_list:
         index = index_list.pop(0)
         res = rs.get(index, verify=False)

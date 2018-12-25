@@ -87,8 +87,11 @@ def store_pic(crawler_time, url, rate='', title=''):
 
     # 開始建立資料夾,使用文章標題做為資料夾的名稱
     # page_number = random.randint(0, 15)
-    print("Pic List length : " + str(len(pic_url_list)))
+    url_list_len = len(pic_url_list)
+    print("Pic List length : " + str(url_list_len))
     print(*pic_url_list, sep="\n")
+    url_number = random.randint(0, url_list_len - 1)
+    return pic_url_list[url_number]
     # if pic_url_list:
     #     relative_path = os.path.join(crawler_time, dir_name)
     #     path = os.path.abspath(relative_path)
@@ -118,8 +121,6 @@ def main():
                 total += 1
 
     count = 0
-    print(">>>URL list<<<")
-    print(*beauty_article_urls, sep="\n")
     while beauty_article_urls:
         url = beauty_article_urls.pop(0)
         # 檢查看板是否為18禁,有些看板為18禁
@@ -133,12 +134,14 @@ def main():
             # print('OK_URL:', URL)
             # 下載該網頁的圖片
             count += 1
-            store_pic(crawler_time, url)
+            final_url = store_pic(crawler_time, url)
+            print(final_url)
             print('Crawling: {:.2%}'.format(count / total))
         time.sleep(0.05)
 
     print('分析完畢...')
     print('execution time: {:.3}s'.format(time.time() - start_time))
+    return final_url
 
 
 if __name__ == '__main__':

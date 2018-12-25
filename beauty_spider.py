@@ -114,7 +114,7 @@ def main(startpage):
     count = 0
     # 進入每篇文章分析內容
     # while article_list:
-    page_number = random.randint(0, total-1)
+    page_number = random.randint(0, total - 1)
     print("Page Num : " + str(page_number))
     article = article_list[page_number]
     res = rs.get(article['url'], verify=False)

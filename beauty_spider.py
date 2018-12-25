@@ -125,11 +125,12 @@ def main(startpage):
     else:
         count += 1
         final_url = get_picture_url.store_pic(crawler_time, article['url'], article['rate'], article['title'])
-        print("final_url")
+        print("BS_final_url")
         print(final_url)
         # print('download: {:.2%}'.format(count / total))
     time.sleep(0.05)
 
+    return final_url
     # print("下載完畢...")
     # print('execution time: {:.3}s'.format(time.time() - start_time))
 

@@ -137,7 +137,7 @@ def main():
         # 下載該網頁的圖片
         count += 1
         final_url = store_pic(crawler_time, url)
-        print("final_url")
+        print("GPU_final_url")
         print(final_url)
         print('Crawling: {:.2%}'.format(count / total))
     time.sleep(0.05)

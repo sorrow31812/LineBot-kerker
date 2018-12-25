@@ -91,6 +91,8 @@ def store_pic(crawler_time, url, rate='', title=''):
     print("Pic List length : " + str(url_list_len))
     print(*pic_url_list, sep="\n")
     url_number = random.randint(0, url_list_len - 1)
+    print(url_number)
+    print(pic_url_list[url_number])
     return pic_url_list[url_number]
     # if pic_url_list:
     #     relative_path = os.path.join(crawler_time, dir_name)
@@ -135,6 +137,7 @@ def main():
             # 下載該網頁的圖片
             count += 1
             final_url = store_pic(crawler_time, url)
+            print("final_url")
             print(final_url)
             print('Crawling: {:.2%}'.format(count / total))
         time.sleep(0.05)

@@ -9,6 +9,7 @@ from functools import partial
 import requests
 import urllib3
 from bs4 import BeautifulSoup
+import random
 
 urllib3.disable_warnings()
 
@@ -85,7 +86,9 @@ def store_pic(crawler_time, url, rate='', title=''):
             pic_url_list.append(img_url)
 
     # 開始建立資料夾,使用文章標題做為資料夾的名稱
-    print(*pic_url_list, sep="\n")
+    page_number = random.randint(0, 15)
+    print(pic_url_list[page_number])
+    # print(*pic_url_list, sep="\n")
     # if pic_url_list:
     #     relative_path = os.path.join(crawler_time, dir_name)
     #     path = os.path.abspath(relative_path)

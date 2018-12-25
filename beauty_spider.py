@@ -74,15 +74,15 @@ def main(startpage):
     start_time = time.time()
     datetime_format = '%Y%m%d%H%M%S'
     crawler_time = '_PttImg_{:{}}'.format(datetime.datetime.now(), datetime_format)
-    if start_page == 0:
-        print("請輸入有效數字")
-        sys.exit()
-    # 如為 -1 ,則從最新的一頁開始
-    else:
-        # 檢查看板是否為18禁,有些看板為18禁
-        soup = over18(board)
-        all_page_url = soup.select('.btn.wide')[1]['href']
-        start_page = get_page_number(all_page_url)
+    # if start_page == 0:
+    #     print("請輸入有效數字")
+    #     sys.exit()
+    # # 如為 -1 ,則從最新的一頁開始
+    # else:
+    #     # 檢查看板是否為18禁,有些看板為18禁
+    #     soup = over18(board)
+    #     all_page_url = soup.select('.btn.wide')[1]['href']
+    #     start_page = get_page_number(all_page_url)
 
     # print("Analytical download page...")
     index_list = []

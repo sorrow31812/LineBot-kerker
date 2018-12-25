@@ -88,7 +88,7 @@ def store_pic(crawler_time, url, rate='', title=''):
     # 開始建立資料夾,使用文章標題做為資料夾的名稱
     # page_number = random.randint(0, 15)
     print("Pic List length : " + str(len(pic_url_list)))
-    # print(*pic_url_list, sep="\n")
+    print(*pic_url_list, sep="\n")
     # if pic_url_list:
     #     relative_path = os.path.join(crawler_time, dir_name)
     #     path = os.path.abspath(relative_path)
@@ -118,6 +118,7 @@ def main():
                 total += 1
 
     count = 0
+    print(">>>URL list<<<")
     print(*beauty_article_urls, sep="\n")
     while beauty_article_urls:
         url = beauty_article_urls.pop(0)

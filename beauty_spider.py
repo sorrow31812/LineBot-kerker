@@ -74,17 +74,7 @@ def main():
     start_time = time.time()
     datetime_format = '%Y%m%d%H%M%S'
     crawler_time = '_PttImg_{:{}}'.format(datetime.datetime.now(), datetime_format)
-    # if start_page == 0:
-    #     print("請輸入有效數字")
-    #     sys.exit()
-    # # 如為 -1 ,則從最新的一頁開始
-    # else:
-    #     # 檢查看板是否為18禁,有些看板為18禁
-    #     soup = over18(board)
-    #     all_page_url = soup.select('.btn.wide')[1]['href']
-    #     start_page = get_page_number(all_page_url)
 
-    # print("Analytical download page...")
     index_list = []
     article_list = []
     # for page in range(start_page, start_page - page_term, -1):
@@ -107,15 +97,15 @@ def main():
     time.sleep(0.05)
 
     total = len(article_list)
-    print("Total : " + str(total))
-    print(">>>>>>>>>>>>article_list<<<<<<<<<<<<<")
-    print(*article_list, sep="\n")
-    print(">>>>>>>>>>>>article__list<<<<<<<<<<<<<")
+    # print("Total : " + str(total))
+    # print(">>>>>>>>>>>>article_list<<<<<<<<<<<<<")
+    # print(*article_list, sep="\n")
+    # print(">>>>>>>>>>>>article__list<<<<<<<<<<<<<")
     count = 0
     # 進入每篇文章分析內容
     # while article_list:
     page_number = random.randint(0, total - 1)
-    print("Page Num : " + str(page_number))
+    # print("Page Num : " + str(page_number))
     article = article_list[page_number]
     res = rs.get(article['url'], verify=False)
     # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接

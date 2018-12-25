@@ -25,7 +25,6 @@ def callback():
     # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
-    beauty_spider.main()
     # handle webhook body
     try:
         handler.handle(body, signature)
@@ -38,6 +37,7 @@ def callback():
 def handle_message(event):
     #message = TextSendMessage(text=event.message.text)
 	#message = ImageSendMessage( original_content_url='https://i.imgur.com/xZFUVex.jpg', preview_image_url='https://i.imgur.com/yL7naJ7.jpg' )
+    beauty_spider.main(event.message.text)
     message = ImageSendMessage(
         original_content_url='https://i.imgur.com/xZFUVex.jpg',
         preview_image_url='https://i.imgur.com/xZFUVex.jpg'

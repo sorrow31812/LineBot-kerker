@@ -6,7 +6,7 @@ import requests
 import urllib3
 from bs4 import BeautifulSoup
 
-import download_beauty
+import get_picture_url
 
 urllib3.disable_warnings()
 rs = requests.session()
@@ -113,7 +113,7 @@ def main():
             time.sleep(1)
         else:
             count += 1
-            download_beauty.store_pic(crawler_time, article['url'], article['rate'], article['title'])
+            get_picture_url.store_pic(crawler_time, article['url'], article['rate'], article['title'])
             print('download: {:.2%}'.format(count / total))
         time.sleep(0.05)
 

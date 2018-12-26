@@ -2,3 +2,5 @@
 
 # 忽略所有 .idea 目錄下的檔案
 /.idea/*
+
+imgur_auth.py

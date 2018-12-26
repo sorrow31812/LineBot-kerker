@@ -42,6 +42,9 @@ def callback():
 def handle_message(event):
     print("event.reply_token:", event.reply_token)
     print("event.message.text:", event.message.text)
+    if event.message.image:
+        print("Image exist")
+        return 0
     if event.message.text == '抽':
         img_url = beauty_spider.main()
         print("App img_url : " + img_url)

@@ -68,7 +68,6 @@ def download_link(directory, link):
 def store_pic(crawler_time, url, rate='', title=''):
     # 檢查看板是否為18禁,有些看板為18禁
     soup, _ = over18(url)
-    crawler_time = url.split('/')[-2] + crawler_time
     # 避免有些文章會被使用者自行刪除標題列
     try:
         title = soup.select('.article-meta-value')[2].text
@@ -92,25 +91,12 @@ def store_pic(crawler_time, url, rate='', title=''):
     url_number = random.randint(0, url_list_len - 1)
 
     return pic_url_list[url_number]
-    # if pic_url_list:
-    #     relative_path = os.path.join(crawler_time, dir_name)
-    #     path = os.path.abspath(relative_path)
-    #     try:
-    #         if not os.path.exists(path):
-    #             os.makedirs(path)
-    #     except Exception as e:
-    #         print('os.makedirs(path) error')
-    #
-    #     download = partial(download_link, relative_path)
-    #     executor = concurrent.futures.ThreadPoolExecutor()
-    #     executor.map(download, pic_url_list)
 
 
 def main():
     print("Analytical download page...")
     datetime_format = '%Y%m%d%H%M%S'
     crawler_time = '_PttImg_{:{}}'.format(datetime.datetime.now(), datetime_format)
-    start_time = time.time()
     beauty_article_urls = []
     # 從.txt檔案中讀取 urls
     total = 0
@@ -121,7 +107,6 @@ def main():
                 total += 1
 
     count = 0
-    # while beauty_article_urls:
     url = beauty_article_urls.pop(0)
     # 檢查看板是否為18禁,有些看板為18禁
     _, status_code = over18(url)
@@ -130,7 +115,6 @@ def main():
         beauty_article_urls.append(url)
         time.sleep(1)
     else:
-        # 下載該網頁的圖片
         count += 1
         final_url = store_pic(crawler_time, url)
     time.sleep(0.05)

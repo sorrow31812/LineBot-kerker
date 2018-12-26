@@ -101,12 +101,10 @@ def main():
     print(">>>>>>>>>>>>article__list<<<<<<<<<<<<<")
     count = 0
     # 進入每篇文章分析內容
-    # while article_list:
     page_number = random.randint(0, total - 1)
     print("Page Num : " + str(page_number))
     article = article_list[page_number]
     res = rs.get(article['url'], verify=False)
-    # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
     if res.status_code != 200:
         article_list.append(article)
         time.sleep(1)

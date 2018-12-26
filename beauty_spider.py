@@ -69,15 +69,13 @@ def craw_page(res, push_rate):
 def main():
     # python beauty_spider2.py [版名] [爬蟲起始的頁面] [爬幾頁] [推文多少以上] python beauty_spider2.py beauty -1 3 10
     # board, start_page, page_term, push_rate = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4])
-    page_number = random.randint(2500, 2769)
-    board, start_page, page_term, push_rate = 'beauty', page_number, 1, 10
-    start_time = time.time()
+    page_number = random.randint(2400, 2769)
+    board, start_page, page_term, push_rate = 'sex', page_number, 1, 10
     datetime_format = '%Y%m%d%H%M%S'
     crawler_time = '_PttImg_{:{}}'.format(datetime.datetime.now(), datetime_format)
 
     index_list = []
     article_list = []
-    # for page in range(start_page, start_page - page_term, -1):
     page_url = 'https://www.ptt.cc/bbs/{}/index{}.html'.format(board, start_page)
     index_list.append(page_url)
 
@@ -97,15 +95,15 @@ def main():
     time.sleep(0.05)
 
     total = len(article_list)
-    # print("Total : " + str(total))
-    # print(">>>>>>>>>>>>article_list<<<<<<<<<<<<<")
-    # print(*article_list, sep="\n")
-    # print(">>>>>>>>>>>>article__list<<<<<<<<<<<<<")
+    print("Total : " + str(total))
+    print(">>>>>>>>>>>>article_list<<<<<<<<<<<<<")
+    print(*article_list, sep="\n")
+    print(">>>>>>>>>>>>article__list<<<<<<<<<<<<<")
     count = 0
     # 進入每篇文章分析內容
     # while article_list:
     page_number = random.randint(0, total - 1)
-    # print("Page Num : " + str(page_number))
+    print("Page Num : " + str(page_number))
     article = article_list[page_number]
     res = rs.get(article['url'], verify=False)
     # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接

@@ -38,8 +38,8 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # message = TextSendMessage(text=event.message.text)
-    # message = ImageSendMessage( original_content_url='https://i.imgur.com/xZFUVex.jpg', preview_image_url='https://i.imgur.com/yL7naJ7.jpg' )
+    print("event.reply_token:", event.reply_token)
+    print("event.message.text:", event.message.text)
     if event.message.text == '抽':
         img_url = beauty_spider.main()
         print("App img_url : " + img_url)
@@ -48,6 +48,9 @@ def handle_message(event):
             preview_image_url=img_url
         )
         line_bot_api.reply_message(event.reply_token, message)
+        return 0
+    # TBD
+    # google search, ptt sex, upload image
 
 
 import os

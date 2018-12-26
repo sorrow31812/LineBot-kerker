@@ -8,15 +8,17 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
+import configparser
+
 import beauty_spider
 
 app = Flask(__name__)
-
+config = configparser.ConfigParser()
+config.read("config.ini")
 # Channel Access Token
-line_bot_api = LineBotApi(
-    'n3/oHFHwqZ2mQV7pUChishywh66Z9Z0F4uyxtNKj+RK3l4HPBPTgElS19HCK2yrmZW4CLPoyG8yzppQijdpQZ6xLd7Jm9QdOPoTkjRANyB7sB56Zq05UQt4cbmRAEQp1y3B3YBQwHczl/KdotYez8AdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi(config['line_bot']['Channel_Access_Token'])
 # Channel Secret
-handler = WebhookHandler('ef2da7c9e8a366e6d2ade3eb64fcb8f9')
+handler = WebhookHandler(config['line_bot']['Channel_Secret'])
 
 
 # 監聽所有來自 /callback 的 Post Request

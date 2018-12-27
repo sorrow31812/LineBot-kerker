@@ -11,6 +11,7 @@ from linebot.models import *
 import configparser
 
 import beauty_spider
+import Divination
 
 app = Flask(__name__)
 config = configparser.ConfigParser()
@@ -40,12 +41,13 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    keyword = event.message.text
     print("event.reply_token:", event.reply_token)
-    print("event.message.text:", event.message.text)
+    print("event.message.text:", keyword)
     # if event.message.image:
     #     print("Image exist")
     #     return 0
-    if event.message.text == '抽':
+    if keyword == '抽':
         img_url = beauty_spider.main()
         print("App img_url : " + img_url)
         message = ImageSendMessage(
@@ -54,6 +56,12 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, message)
         return 0
+    fate_keyword = "運勢"
+    if keyword.find(fate_keyword) != -1:
+        today_divination = Divination.get_divination()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=today_divination))
     # TBD
     # google search, ptt sex, upload image
 

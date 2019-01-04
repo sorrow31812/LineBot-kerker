@@ -69,7 +69,7 @@ def craw_page(res, push_rate):
 def main():
     # python beauty_spider2.py [版名] [爬蟲起始的頁面] [爬幾頁] [推文多少以上] python beauty_spider2.py beauty -1 3 10
     # board, start_page, page_term, push_rate = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4])
-    page_number = random.randint(2400, 2769)
+    page_number = random.randint(2250, 2780)
     board, start_page, page_term, push_rate = 'beauty', page_number, 1, 10
     datetime_format = '%Y%m%d%H%M%S'
     crawler_time = '_PttImg_{:{}}'.format(datetime.datetime.now(), datetime_format)
@@ -80,9 +80,9 @@ def main():
     index_list.append(page_url)
 
     # 抓取 文章標題 網址 推文數
-    print(">>>>>>>>>>>>index_list<<<<<<<<<<<<<")
-    print(*index_list, sep="\n")
-    print(">>>>>>>>>>>>index_list<<<<<<<<<<<<<")
+    # print(">>>>>>>>>>>>index_list<<<<<<<<<<<<<")
+    # print(*index_list, sep="\n")
+    # print(">>>>>>>>>>>>index_list<<<<<<<<<<<<<")
     # while index_list:
     index = index_list.pop(0)
     res = rs.get(index, verify=False)
@@ -95,10 +95,10 @@ def main():
     time.sleep(0.05)
 
     total = len(article_list)
-    print("Total : " + str(total))
-    print(">>>>>>>>>>>>article_list<<<<<<<<<<<<<")
-    print(*article_list, sep="\n")
-    print(">>>>>>>>>>>>article__list<<<<<<<<<<<<<")
+    # print("Total : " + str(total))
+    # print(">>>>>>>>>>>>article_list<<<<<<<<<<<<<")
+    # print(*article_list, sep="\n")
+    # print(">>>>>>>>>>>>article__list<<<<<<<<<<<<<")
     count = 0
     # 進入每篇文章分析內容
     page_number = random.randint(0, total - 1)
@@ -112,6 +112,10 @@ def main():
         count += 1
         final_url = get_picture_url.store_pic(crawler_time, article['url'], article['rate'], article['title'])
     time.sleep(0.05)
+
+    https_check = 'https'
+    if final_url.find(https_check) == -1:
+        final_url = 'https' + final_url[4:]
 
     return final_url
 

@@ -8,18 +8,18 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
-import configparser
+from config import Channel_Access_Token, Channel_Secret
 
 import beauty_spider
 import Divination
+import av_pic_spider
+import random_food
 
 app = Flask(__name__)
-config = configparser.ConfigParser()
-config.read("config.ini")
 # Channel Access Token
-line_bot_api = LineBotApi(config['line_bot']['Channel_Access_Token'])
+line_bot_api = LineBotApi(Channel_Access_Token)
 # Channel Secret
-handler = WebhookHandler(config['line_bot']['Channel_Secret'])
+handler = WebhookHandler(Channel_Secret)
 
 
 # 監聽所有來自 /callback 的 Post Request
@@ -56,12 +56,32 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, message)
         return 0
+
     fate_keyword = "運勢"
     if keyword.find(fate_keyword) != -1:
         today_divination = Divination.get_divination()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=today_divination))
+        return 0
+
+    fate_keyword = "吃什麼"
+    if keyword.find(fate_keyword) != -1:
+        today_food = random_food.get_food()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=today_food))
+        return 0
+
+    if keyword == '抽西斯':
+        img_url = av_pic_spider.main()
+        message = ImageSendMessage(
+            original_content_url=img_url,
+            preview_image_url=img_url
+        )
+        line_bot_api.reply_message(event.reply_token, message)
+
+        return 0
     # TBD
     # google search, ptt sex, upload image
 

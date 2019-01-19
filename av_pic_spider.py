@@ -11,12 +11,26 @@ def index_containing_substring(the_list, substring):
     return -1
 
 
+def get_img_url(article):
+    pic_http_index = 0
+    keyword_http = 'http'
+    keyword_jpg = '.jpg'
+    url_list = []
+    while pic_http_index >= 0:
+        pic_jpg_index = article.index(keyword_jpg)
+        tmp = article[:pic_jpg_index+4]
+        pic_http_index = tmp.index(keyword_http)
+        img_url = tmp[pic_http_index:]
+        url_list.append(img_url)
+        article = article[pic_jpg_index+4:]
+        pic_http_index = article.find(keyword_http)
+    return url_list
+
+
 def main():
-    # keyword = sys.argv
     page_random = random.randint(400, 9707)
     target_url = 'http://18av.tv/cg_{}.html'.format(page_random)
-    print(target_url)
-    # search param
+    # print(target_url)
     cookies = {'javascript_cookie_Eighteenth': 'I_am_over_18_years_old'}
     req = requests.post(target_url, cookies=cookies)
     # Check status code
@@ -24,24 +38,13 @@ def main():
         bsParsingResult = BeautifulSoup(req.text, "html.parser")
         url_array = bsParsingResult.find_all("script")
         url_num = index_containing_substring(url_array, 'wbhost3')
-        print(url_num)
+        # print(url_num)
         # with open("Output.txt", "w") as text_file:
         #     print(test.encode("utf8").decode("cp950", "ignore"), file=text_file)
         selectionResult = str(url_array[url_num])
         # print(selectionResult)
-        # pic_jpg_index = 0
-        pic_http_index = 0
-        keyword_http = 'http'
-        keyword_jpg = '.jpg'
-        url_list = []
-        while pic_http_index >= 0:
-            pic_jpg_index = selectionResult.index(keyword_jpg)
-            tmp = selectionResult[:pic_jpg_index+4]
-            pic_http_index = tmp.index(keyword_http)
-            img_url = tmp[pic_http_index:]
-            url_list.append(img_url)
-            selectionResult = selectionResult[pic_jpg_index+4:]
-            pic_http_index = selectionResult.find(keyword_http)
+        url_list = get_img_url(selectionResult)
+
     else:
         print(req.status_code)
 

@@ -8,12 +8,14 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
-from config import Channel_Access_Token, Channel_Secret
+from config import Channel_Access_Token, Channel_Secret, Bulletin, fight_Bulletin
 
 import beauty_spider
 import Divination
 import av_pic_spider
 import random_food
+import google_search
+import get_horoscope
 
 app = Flask(__name__)
 # Channel Access Token
@@ -42,11 +44,35 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     keyword = event.message.text
-    print("event.reply_token:", event.reply_token)
+    # print("event.reply_token:", event.reply_token)
     print("event.message.text:", keyword)
-    # if event.message.image:
-    #     print("Image exist")
-    #     return 0
+
+    fate_keyword = "運勢"
+    zodiac_keyword = '座'
+    if keyword.find(fate_keyword) != -1:
+        if keyword.find(zodiac_keyword) != -1:
+            today_divination = get_horoscope.main(keyword[:-3])
+            if not today_divination:
+                return
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=today_divination))
+            return 0
+        else:
+            today_divination = Divination.get_divination()
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=today_divination))
+            return 0
+
+    food_keyword = "吃什麼"
+    if keyword.find(food_keyword) != -1:
+        today_food = random_food.get_food()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=today_food))
+        return 0
+
     if keyword == '抽':
         img_url = beauty_spider.main()
         print("App img_url : " + img_url)
@@ -55,22 +81,6 @@ def handle_message(event):
             preview_image_url=img_url
         )
         line_bot_api.reply_message(event.reply_token, message)
-        return 0
-
-    fate_keyword = "運勢"
-    if keyword.find(fate_keyword) != -1:
-        today_divination = Divination.get_divination()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=today_divination))
-        return 0
-
-    fate_keyword = "吃什麼"
-    if keyword.find(fate_keyword) != -1:
-        today_food = random_food.get_food()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=today_food))
         return 0
 
     if keyword == '抽西斯':
@@ -82,9 +92,54 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, message)
 
         return 0
-    # TBD
-    # google search, ptt sex, upload image
 
+    google_keyword = "google "
+    if keyword.find(google_keyword) != -1:
+        search_word = keyword[7:]
+        content = google_search.googleSearch(search_word)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+
+    bulletin_keyword = '宣導'
+    fight_keyword = '爭奪'
+    if keyword.find(bulletin_keyword) != -1:
+        content = Bulletin
+        if keyword.find(fight_keyword) != -1:
+            content = fight_Bulletin
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+
+    if event.message.text == "/help":
+        buttons_template = TemplateSendMessage(
+            alt_text='Services Template',
+            template=ButtonsTemplate(
+                title='選擇服務',
+                text='請選擇',
+                thumbnail_image_url='https://i.imgur.com/pBgoR3W.jpg',
+                actions=[
+                    MessageTemplateAction(
+                        label='等等想吃什麼?',
+                        text='等等想吃什麼?'
+                    ),
+                    MessageTemplateAction(
+                        label='表特版妹子',
+                        text='抽'
+                    ),
+                    MessageTemplateAction(
+                        label='西斯好圖',
+                        text='抽西斯'
+                    ),
+                    MessageTemplateAction(
+                        label='今日運勢',
+                        text='今日運勢'
+                    )
+                ]
+            )
+        )
+        line_bot_api.reply_message(event.reply_token, buttons_template)
+        return 0
 
 import os
 

@@ -1,4 +1,3 @@
-import sys
 import requests
 from urllib.parse import unquote
 from bs4 import BeautifulSoup
@@ -14,7 +13,6 @@ def parseUrl(url):
 
 
 def googleSearch(keyword):
-    # keyword = sys.argv
     google_url = 'https://www.google.com.tw/search'
     # search param
     my_params = {'q': keyword}
@@ -35,12 +33,12 @@ def googleSearch(keyword):
             result_list += '{}\n{}\n\n'.format(item.text, urlResult)
             if idx == 3:
                 break
-        # print(result_list)
+        print(result_list)
         return result_list
     else:
         print(req.status_code)
-        return 0
+        return '503 Server'
 
 
 if __name__ == '__main__':
-    googleSearch()
+    googleSearch('FGO')

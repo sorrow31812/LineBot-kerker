@@ -8,14 +8,19 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
-from config import Channel_Access_Token, Channel_Secret, Bulletin, fight_Bulletin
+from config import Channel_Access_Token, Channel_Secret
 
 import beauty_spider
+import girl_spider
+import cat_spider
+import handsome_spider
 import Divination
 import av_pic_spider
 import random_food
 import google_search
 import get_horoscope
+import dice18
+import random
 
 app = Flask(__name__)
 # Channel Access Token
@@ -44,7 +49,6 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     keyword = event.message.text
-    # print("event.reply_token:", event.reply_token)
     print("event.message.text:", keyword)
 
     fate_keyword = "運勢"
@@ -53,7 +57,7 @@ def handle_message(event):
         if keyword.find(zodiac_keyword) != -1:
             today_divination = get_horoscope.main(keyword[:-3])
             if not today_divination:
-                return
+                return 0
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=today_divination))
@@ -73,7 +77,20 @@ def handle_message(event):
             TextSendMessage(text=today_food))
         return 0
 
+    dice_keyword = "擲骰子"
+    if keyword.find(dice_keyword) != -1:
+        get_dice_num = dice18.main()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=get_dice_num))
+        return 0
+
     if keyword == '抽':
+        # random_num = random.randint(0, 1)
+        # if random_num == 0:
+        #     img_url = beauty_spider.main()
+        # else:
+        #     img_url = girl_spider.main()
         img_url = beauty_spider.main()
         print("App img_url : " + img_url)
         message = ImageSendMessage(
@@ -83,7 +100,27 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, message)
         return 0
 
-    if keyword == '抽西斯':
+    if keyword == '抽貓咪':
+        img_url = cat_spider.main()
+        print("App img_url : " + img_url)
+        message = ImageSendMessage(
+            original_content_url=img_url,
+            preview_image_url=img_url
+        )
+        line_bot_api.reply_message(event.reply_token, message)
+        return 0
+
+    if keyword == '抽帥哥':
+        img_url = handsome_spider.main()
+        print("App img_url: " + img_url)
+        message = ImageSendMessage(
+            original_content_url=img_url,
+            preview_image_url=img_url
+        )
+        line_bot_api.reply_message(event.reply_token, message)
+        return 0
+
+    if keyword == '紳士的法則':
         img_url = av_pic_spider.main()
         message = ImageSendMessage(
             original_content_url=img_url,
@@ -100,16 +137,18 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
+        return 0
 
-    bulletin_keyword = '宣導'
-    fight_keyword = '爭奪'
-    if keyword.find(bulletin_keyword) != -1:
-        content = Bulletin
-        if keyword.find(fight_keyword) != -1:
-            content = fight_Bulletin
+    kerker_keyword = "科科"
+    if keyword.find(kerker_keyword) != -1:
+        sticker_message = StickerSendMessage(
+            package_id='11537',
+            sticker_id='52002744'
+        )
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=content))
+            sticker_message)
+        return 0
 
     if event.message.text == "/help":
         buttons_template = TemplateSendMessage(

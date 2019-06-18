@@ -29,3 +29,7 @@ def get_divination():
     else:
         your_destiny += "大吉(๑•̀ω•́)ノ 強運降臨!!"
         return your_destiny
+
+
+if __name__ == '__main__':
+    get_divination()
